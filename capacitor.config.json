@@ -1,0 +1,6 @@
+{
+  "appId": "com.vrtechsolutions.lifora",
+  "appName": "LIFORA",
+  "webDir": "www",
+  "bundledWebRuntime": false
+}
