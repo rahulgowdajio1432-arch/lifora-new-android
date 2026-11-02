@@ -15,6 +15,21 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v4
 
+      - name: Inject Firebase OTP scripts
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          p = Path('www/index.html')
+          html = p.read_text()
+          sdk = '<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>\\n<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>\\n'
+          if 'firebase-app-compat.js' not in html:
+              html = html.replace('</head>', sdk + '</head>')
+          auth = '<script src="firebase-auth.js"></script>\\n'
+          if 'firebase-auth.js' not in html:
+              html = html.replace('</body>', auth + '</body>')
+          p.write_text(html)
+          PY
+
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
